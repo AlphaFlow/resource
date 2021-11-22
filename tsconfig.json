@@ -1,0 +1,20 @@
+{
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "baseUrl": "src/",
+    "strict": true,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "target": "ES5",
+    "lib": ["dom"],
+    "module": "esnext",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
+  }
+}

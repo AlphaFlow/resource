@@ -1,0 +1,10 @@
+{
+  "name": "basic",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "tinyapp --from='./index.js' --develop"
+  },
+  "dependencies": {
+    "@scriptless/tinyapp": "1.0.18"
+  }
+}

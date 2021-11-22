@@ -1,0 +1,52 @@
+{
+  "name": "@alphaflow/resource",
+  "version": "1.0.0-alpha.24",
+  "description": "Resource management wrapper with a React hooks api.",
+  "homepage": "https://github.com/AlphaFlow/client-core#readme",
+  "bugs": {
+    "url": "https://github.com/AlphaFlow/client-core/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlphaFlow/client-core.git"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    "development": "./build/development/index.js",
+    "production": "./build/production/index.js",
+    "default": "./build/production/index.js"
+  },
+  "main": "./build/production/index.js",
+  "files": [
+    "build/*"
+  ],
+  "scripts": {
+    "build": "rm -rf build && rollup -c",
+    "buildAndWatch": "rm -rf build && rollup -c -w",
+    "checkPackage": "yarn package-check",
+    "start": "yarn test --watch",
+    "test": "echo 'tests disabled'"
+  },
+  "dependencies": {
+    "@alphaflow/util": "1.0.0-alpha.30",
+    "lodash-es": "4.17.21",
+    "redux": "4.0.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-eslint": "8.0.1",
+    "@rollup/plugin-node-resolve": "13.0.5",
+    "@scriptless/tinyapp": "1.0.18",
+    "@skypack/package-check": "0.2.2",
+    "jest": "27.0.6",
+    "matched": "4.0.0",
+    "rollup": "2.57.0",
+    "rollup-plugin-terser": "7.0.2",
+    "rollup-plugin-typescript2": "0.30.0",
+    "ts-jest": "27.0.5"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  }
+}
