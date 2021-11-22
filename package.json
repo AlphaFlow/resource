@@ -1,7 +1,7 @@
 {
   "name": "@alphaflow/resource",
-  "version": "1.0.0-alpha.24",
-  "description": "Resource management wrapper with a React hooks api.",
+  "version": "1.0.0-alpha.25",
+  "description": "AlphaFlow Resource is a library for connecting user interfaces to remote data.",
   "homepage": "https://github.com/AlphaFlow/client-core#readme",
   "bugs": {
     "url": "https://github.com/AlphaFlow/client-core/issues"
