@@ -1,0 +1,64 @@
+{
+  "env": {
+    "browser": true,
+    "amd": true,
+    "es6": true,
+    "jest/globals": true,
+    "node": true
+  },
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:react/jsx-runtime",
+    "eslint:recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "react-hooks", "jest", "@typescript-eslint"],
+  "rules": {
+    "no-loop-func": "off",
+    "import/no-anonymous-default-export": "off",
+    "indent": [0, 4, { "SwitchCase": 1 }],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "single", "avoid-escape"],
+    "semi": ["warn", "always"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "react/prop-types": 0,
+    "jest/no-disabled-tests": "off",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "no-duplicate-imports": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "plugins": ["react", "react-hooks", "jest", "@typescript-eslint"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "no-duplicate-imports": "warn",
+        "no-loop-func": "off",
+        "import/no-anonymous-default-export": "off",
+        "indent": [0, 4, { "SwitchCase": 1 }],
+        "linebreak-style": ["warn", "unix"],
+        "quotes": ["warn", "single", "avoid-escape"],
+        "semi": ["warn", "always"],
+        "no-console": ["warn", { "allow": ["warn", "error"] }]
+      }
+    }
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

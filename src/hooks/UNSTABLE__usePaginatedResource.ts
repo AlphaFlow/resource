@@ -1,17 +1,17 @@
-import { PaginatedResourceType } from "describe/UNSTABLE__paginatedResource";
-import dataStore from "internals/stores/data";
-import surfaceStore from "internals/stores/surface";
-import { noop, uniqueId } from "lodash-es";
-import { useState, useEffect, useMemo } from "react";
-import readResourceData from "read/dataStore/resourceData";
-import readResourceGetError from "read/dataStore/resourceGetError";
-import writeAddToSurface from "write/surfaceStore/addToSurface";
-import writeRemoveFromSurface from "write/surfaceStore/removeFromSurface";
-import { SurfaceElementType } from "./../internals/stores/surface";
+import { PaginatedResourceType } from 'describe/UNSTABLE__paginatedResource';
+import dataStore from 'internals/stores/data';
+import surfaceStore from 'internals/stores/surface';
+import { noop, uniqueId } from 'lodash-es';
+import { useState, useEffect, useMemo } from 'react';
+import readResourceData from 'read/dataStore/resourceData';
+import readResourceGetError from 'read/dataStore/resourceGetError';
+import writeAddToSurface from 'write/surfaceStore/addToSurface';
+import writeRemoveFromSurface from 'write/surfaceStore/removeFromSurface';
+import { SurfaceElementType } from './../internals/stores/surface';
 
 const makeArrayOfLength = <FillType = undefined>(
   length: number,
-  fillWith?: FillType
+  fillWith?: FillType,
 ): FillType[] => new Array(length).fill(fillWith);
 
 const getEmptyState = <IdentityType, ResourceDataType>({
@@ -52,7 +52,7 @@ const getDoesPaginationRequirementMatchSurfaceElement = ({
   if (
     !paginationRequirementResource.areProvidedIdentitiesEqual(
       paginationRequirementIdentity,
-      surfaceElement.identity.providedIdentity
+      surfaceElement.identity.providedIdentity,
     )
   )
     return false;
@@ -73,7 +73,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
 }): [
   (ResourceDataType | undefined | null)[] | undefined,
   number | undefined,
-  any | undefined
+  any | undefined,
 ] => {
   // composite internal hook state
   const [
@@ -83,7 +83,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
     getEmptyState({
       Resource: ProvidedResource,
       identity: providedIdentity,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
         last.Resource === ProvidedResource &&
         last.Resource.areProvidedIdentitiesEqual(
           last.identity,
-          providedIdentity
+          providedIdentity,
         )
       )
         return last;
@@ -152,7 +152,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
           let i = startIndex;
           while (i <= endIndex) {
             const overlapRange = ascendingOverlap.find(
-              range => range.startIndex <= i && range.endIndex >= i
+              range => range.startIndex <= i && range.endIndex >= i,
             );
 
             if (overlapRange) {
@@ -202,8 +202,8 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
             paginationRequirementResource: paginationRangeRequirements.Resource,
             paginationRequirementIdentity: paginationRangeRequirements.identity,
             surfaceElement,
-          })
-        )
+          }),
+        ),
       );
 
       const toAdd = paginationRangeRequirements.ranges
@@ -218,8 +218,8 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
                 paginationRequirementIdentity:
                   paginationRangeRequirements.identity,
                 surfaceElement,
-              })
-            )
+              }),
+            ),
         )
         .map(({ startIndex, endIndex }) => {
           const surfaceElementKey = uniqueId();
@@ -263,7 +263,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
                 }) => ({
                   ...last,
                   paginationRangeRequirementsData,
-                })
+                }),
               );
             },
           };
@@ -334,16 +334,16 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
     () =>
       Resource === ProvidedResource &&
       Resource.areProvidedIdentitiesEqual(identity, providedIdentity),
-    [Resource, ProvidedResource, identity, providedIdentity]
+    [Resource, ProvidedResource, identity, providedIdentity],
   );
 
   const paginationRangeRequirementsDataEndIndex = useMemo(
     () =>
       Object.values(paginationRangeRequirementsData).reduce(
         (acc, { endIndex }) => Math.max(acc, endIndex),
-        0
+        0,
       ),
-    [paginationRangeRequirementsData]
+    [paginationRangeRequirementsData],
   );
 
   const resourceListData = useMemo(
@@ -356,7 +356,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
             : makeArrayOfLength(
                 Math.max(0, endIndex + 1 - startIndex),
                 // indicate loading item with undefined
-                undefined
+                undefined,
               );
 
           // TODO: figure out best policy for handling disagreements btw data length
@@ -366,10 +366,10 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
             ...makeArrayOfLength(
               Math.max(
                 0,
-                endIndex - startIndex - (resourceListData.length - 1)
+                endIndex - startIndex - (resourceListData.length - 1),
               ),
               // indicate intentional blank space with null
-              null
+              null,
             ),
           ];
 
@@ -382,14 +382,14 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
         makeArrayOfLength(
           paginationRangeRequirementsDataEndIndex + 1,
           // indicate intentional blank space with null
-          null
-        )
+          null,
+        ),
       ),
     [
       paginationRangeRequirementsData,
       paginationRangeRequirementsDataEndIndex,
       Resource,
-    ]
+    ],
   );
 
   const resourceCountData = useMemo(
@@ -398,7 +398,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
     // also maybe not a great policy to take the first valid value we find.
     () => {
       const lastData = Object.values(paginationRangeRequirementsData).find(
-        value => value
+        value => value,
       )?.resourceData;
 
       // TODO: use get metadata
@@ -406,15 +406,15 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
 
       return Resource.getCountFromGetResponse(lastData);
     },
-    [paginationRangeRequirementsData, Resource]
+    [paginationRangeRequirementsData, Resource],
   );
 
   const resourceGetError = useMemo(
     () =>
       Object.values(paginationRangeRequirementsData).find(
-        ({ resourceGetError }) => resourceGetError
+        ({ resourceGetError }) => resourceGetError,
       )?.resourceGetError,
-    [paginationRangeRequirementsData]
+    [paginationRangeRequirementsData],
   );
 
   if (providedIdentityDoesMatchRender)
