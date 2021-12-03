@@ -1,15 +1,12 @@
-import { createStore, compose } from 'redux';
-import { isomorphic } from '@alphaflow/util';
+import { createStore, compose } from "redux";
 
 // reducer expects a transformStore function which it will call with the current store
 const reducer = <StoreType>(
   currentStore: StoreType,
-  {
-    transformStore,
-  }: { transformStore: (currentStore: StoreType) => StoreType },
+  { transformStore }: { transformStore: (currentStore: StoreType) => StoreType }
 ) => {
   // handle redux's @@INIT action
-  if (typeof transformStore !== 'function') return currentStore;
+  if (typeof transformStore !== "function") return currentStore;
 
   return transformStore(currentStore);
 };
@@ -27,15 +24,15 @@ export type StoreType<StoreStateType> = {
 };
 
 const makeStore = <StoreStateType>(
-  initialStore: StoreStateType,
+  initialStore: StoreStateType
 ): StoreType<StoreStateType> => {
   const composeEnhancers =
-    isomorphic.windowSafe?.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(
     // @ts-expect-error our reducer type conflicts with what redux expects, disabling this check
     reducer,
     initialStore,
-    composeEnhancers(),
+    composeEnhancers()
   );
   return store as StoreType<StoreStateType>;
 };

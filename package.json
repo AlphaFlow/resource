@@ -29,7 +29,6 @@
     "test": "echo 'tests disabled'"
   },
   "dependencies": {
-    "@alphaflow/util": "1.0.0-alpha.30",
     "lodash-es": "4.17.21",
     "redux": "4.0.4"
   },
