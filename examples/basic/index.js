@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { useState } from 'react';
+import ReactDom from 'react-dom';
 import { describeResource, describeMutation } from '@alphaflow/resource';
 import { getTodos, addTodo, removeTodo, setTodoIsChecked } from './services';
 import './style.css';
@@ -126,4 +126,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDom.render(<App />, document.getElementById('root'));
