@@ -1,4 +1,6 @@
-const KEY = 'resource.examples.basic';
+import faker from 'faker';
+
+const KEY = window.location.pathname;
 
 const latency = () =>
   new Promise(resolve => {
@@ -20,19 +22,27 @@ const write = async makeToWrite => {
   localStorage.setItem(KEY, toWrite);
 };
 
-export const getTodoById = async id => {
-  const data = await read();
-  return data.find(item => item.id === id);
-};
-
 export const getTodos = async () => {
   const data = (await read()) || [];
   return data;
 };
 
+export const getTodo = async todoId => {
+  const todo = (await getTodos()).find(todo => todo.id === todoId);
+
+  if (!todo) return null;
+
+  return {
+    ...todo,
+    dueDate: faker.date.future(),
+    owner: faker.name.firstName(),
+  };
+};
+
 export const addTodo = async text => {
   const newTodo = {
     id: Date.now(),
+    createdAt: Date.now(),
     text,
     isChecked: false,
   };

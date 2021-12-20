@@ -1,0 +1,18 @@
+{
+  "name": "suspense",
+  "description": "Example with suspense.",
+  "homepage": "https://codesandbox.io/s/github/AlphaFlow/resource/tree/main/examples/basic",
+  "main": "./index.js",
+  "scripts": {
+    "start": "tinyapp"
+  },
+  "dependencies": {
+    "@alphaflow/resource": "latest",
+    "faker": "5.5.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@scriptless/tinyapp": "2.0.1"
+  }
+}
