@@ -1,4 +1,4 @@
-const KEY = 'resource.examples.basic';
+const KEY = window.location.pathname;
 
 const latency = () =>
   new Promise(resolve => {

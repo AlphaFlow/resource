@@ -5,6 +5,6 @@
     "start": "tinyapp --from='./index.js' --develop"
   },
   "dependencies": {
-    "@scriptless/tinyapp": "1.0.18"
+    "@scriptless/tinyapp": "2.0.0"
   }
 }

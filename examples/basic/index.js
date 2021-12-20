@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import ReactDom from 'react-dom';
 import { describeResource, describeMutation } from '@alphaflow/resource';
 import { getTodos, addTodo, removeTodo, setTodoIsChecked } from './services';
@@ -103,7 +103,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Todo App</h1>
+      <h1>Basic Todo App</h1>
       <p>
         {isAddingTodo ? (
           'Adding...'
