@@ -1,12 +1,15 @@
 import { ResourceType } from 'describe/resource';
-import { uniqueId } from 'lodash-es';
-import { useMemo, useState, useEffect } from 'react';
+import { uniqueId, noop } from 'lodash-es';
+import { useCallback, useMemo, useState, useEffect } from 'react';
+import * as shim from 'use-sync-external-store/shim';
 import dataStore from '../internals/stores/data';
 import surfaceStore from '../internals/stores/surface';
 import readResourceData from '../read/dataStore/resourceData';
 import readResourceGetError from '../read/dataStore/resourceGetError';
 import writeAddToSurfaceWithKey from '../write/surfaceStore/addToSurfaceWithKey';
 import writeRemoveFromSurfaceWithKey from '../write/surfaceStore/removeFromSurfaceWithKey';
+
+const { useSyncExternalStore } = shim;
 
 const getEmptyState = <IdentityType, ResourceDataType>({
   Resource,
@@ -54,14 +57,10 @@ const useResource = <IdentityType, ResourceDataType>({
   // fixed key, tied to parent component, used for replace-only caching
   const subscriptionKey = useMemo(uniqueId, []);
 
-  // composite internal hook state
-  const [{ identity, Resource, resourceData, resourceGetError }, setHookState] =
-    useState(() =>
-      getEmptyState({
-        Resource: ProvidedResource,
-        identity: providedIdentity,
-      }),
-    );
+  const [{ identity, Resource }, setHookState] = useState(() => ({
+    identity: providedIdentity,
+    Resource: ProvidedResource,
+  }));
 
   // flag invocation where providedIdentity does not match internal state
   const providedIdentityDoesMatchRender = useMemo(
@@ -89,45 +88,51 @@ const useResource = <IdentityType, ResourceDataType>({
   }, [ProvidedResource, providedIdentity, setHookState]);
 
   // interface with surfaceStore per identity and Resource
-  useEffect(() => {
-    if (identity === null) return;
+  const onStoreChange = useCallback(
+    listener => {
+      if (identity === null) return noop;
 
-    let preventChange = false;
-    const handleChange = ({
-      resourceData,
-      resourceGetError,
-    }: {
-      resourceData: ResourceDataType;
-      resourceGetError: any;
-    }) => {
-      if (preventChange) return;
-      setHookState(last => ({
-        ...last,
-        resourceData,
-        resourceGetError,
-      }));
-    };
+      let preventChange = false;
 
-    const surfaceElement = {
-      Resource,
-      identity,
-      onChange: handleChange,
-    };
-
-    surfaceStore.dispatch(
-      writeAddToSurfaceWithKey({ key: subscriptionKey, surfaceElement }),
-    );
-
-    return () => {
-      // dispatch won't resolve immediately, need to ensure "onChange"s are
-      // intercepted in the hook
-      preventChange = true;
+      const surfaceElement = {
+        Resource,
+        identity,
+        onChange: () => {
+          if (preventChange) return;
+          listener();
+        },
+      };
 
       surfaceStore.dispatch(
-        writeRemoveFromSurfaceWithKey({ key: subscriptionKey }),
+        writeAddToSurfaceWithKey({ key: subscriptionKey, surfaceElement }),
       );
-    };
-  }, [subscriptionKey, Resource, identity, setHookState]);
+
+      return () => {
+        // dispatch won't resolve immediately, need to ensure "onChange"s are
+        // intercepted in the hook
+        preventChange = true;
+
+        surfaceStore.dispatch(
+          writeRemoveFromSurfaceWithKey({ key: subscriptionKey }),
+        );
+      };
+    },
+    [identity, Resource, subscriptionKey],
+  );
+
+  const getSnapshot = useCallback(
+    () =>
+      getEmptyState({
+        Resource: ProvidedResource,
+        identity: providedIdentity,
+      }),
+    [ProvidedResource, providedIdentity],
+  );
+
+  const { resourceData, resourceGetError } = useSyncExternalStore(
+    onStoreChange,
+    getSnapshot,
+  );
 
   if (providedIdentityDoesMatchRender) return [resourceData, resourceGetError];
 
