@@ -1,47 +1,10 @@
 import { useState, useCallback } from 'react';
 import ReactDom from 'react-dom';
-import { describeResource, describeMutation } from '@alphaflow/resource';
-import { getTodos, addTodo, removeTodo, setTodoIsChecked } from './services';
+import TodoListResource from './TodoListResource';
+import addTodoMutation from './addTodoMutation';
+import removeTodoMutation from './removeTodoMutation';
+import setTodoIsCheckedMutation from './setTodoIsCheckedMutation';
 import './style.css';
-
-const TodoListResource = describeResource('TodoList', {
-  get: async () => (await getTodos()) || [],
-});
-
-const addTodoMutation = describeMutation('addTodo', async text => {
-  try {
-    const newTodo = await addTodo(text);
-    await TodoListResource.refresh();
-    return newTodo;
-  } catch (error) {
-    console.error('addTodo failed', error);
-  }
-});
-
-const removeTodoMutation = describeMutation('removeTodo', async todoId => {
-  try {
-    await removeTodo(todoId);
-    await TodoListResource.refresh();
-  } catch (error) {
-    console.error('removeTodo failed', error);
-  }
-});
-
-const setTodoIsCheckedMutation = describeMutation(
-  'setTodoIsChecked',
-  async ({ todoId, isChecked }) => {
-    await TodoListResource.yield(todoId, (last = {}) => ({
-      ...last,
-      isChecked,
-    }));
-
-    try {
-      await setTodoIsChecked({ todoId, isChecked });
-    } catch (error) {
-      console.error('setTodoIsChecked failed', error);
-    }
-  },
-);
 
 const TodoList = () => {
   const [todoList, error] = TodoListResource.use();
