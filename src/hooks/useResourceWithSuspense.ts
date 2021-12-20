@@ -56,7 +56,7 @@ const fetcher = <IdentityType, ResourceDataType>({
   });
 };
 
-const UNSTABLE__useResourceWithSuspense = <IdentityType, ResourceDataType>({
+const useResourceWithSuspense = <IdentityType, ResourceDataType>({
   Resource,
   identity,
 }: {
@@ -69,4 +69,4 @@ const UNSTABLE__useResourceWithSuspense = <IdentityType, ResourceDataType>({
   return useResource<IdentityType, ResourceDataType>({ Resource, identity })[0];
 };
 
-export default UNSTABLE__useResourceWithSuspense;
+export default useResourceWithSuspense;

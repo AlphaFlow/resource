@@ -3,8 +3,8 @@ import yieldResource from 'internals/yieldResource';
 import { uniqueId } from 'lodash-es';
 import UNSTABLE__makeResourceGetFromStoreOrGet from 'make/UNSTABLE__resourceGetFromStoreOrGet';
 import makeResourceGet from 'make/resourceGet';
-import UNSTABLE__useResourceWithSuspense from 'hooks/UNSTABLE__useResourceWithSuspense';
 import useResource from 'hooks/useResource';
+import useResourceWithSuspense from 'hooks/useResourceWithSuspense';
 
 export type ResourceType<IdentityType, ResourceDataType> = {
   key: string;
@@ -16,6 +16,7 @@ export type ResourceType<IdentityType, ResourceDataType> = {
   ) => Promise<ResourceDataType>;
   UNSTABLE__clearImmediate: boolean;
   use: (identity: IdentityType) => [IdentityType | undefined, any];
+  useWithSuspense: (identity: IdentityType) => IdentityType;
   UNSTABLE__useWithSuspense: (identity: IdentityType) => IdentityType;
   yield: (identity?: IdentityType, body?: any) => any;
   refresh: (identity: IdentityType) => Promise<ResourceDataType>;
@@ -59,14 +60,17 @@ const describeResource = <IdentityType, ResourceDataType>(
       Resource,
       identity,
     });
-  Resource.UNSTABLE__useWithSuspense = (identity: IdentityType) =>
+  Resource.useWithSuspense = (identity: IdentityType) =>
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    UNSTABLE__useResourceWithSuspense<IdentityType, ResourceDataType>({
-      // @ts-expect-error TODO: I can't figure out how to let this function accept an incomplete resource
+    useResourceWithSuspense<IdentityType, ResourceDataType>({
       // type. The resource type will be complete any time the function actually runs.
+      // @ts-expect-error TODO: I can't figure out how to let this function accept an incomplete resource
       Resource,
       identity,
     });
+
+  // backwards compatibility
+  Resource.UNSTABLE__useWithSuspense = Resource.useWithSuspense;
 
   Resource.yield = (identity: IdentityType, body: any) =>
     yieldResource<IdentityType, ResourceDataType>({
