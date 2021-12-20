@@ -1,7 +1,7 @@
 {
-  "name": "suspense",
+  "name": "Suspense",
   "description": "Example with suspense.",
-  "homepage": "https://codesandbox.io/s/github/AlphaFlow/resource/tree/main/examples/basic",
+  "homepage": "https://codesandbox.io/s/github/AlphaFlow/resource/tree/main/examples/suspense",
   "main": "./index.js",
   "scripts": {
     "start": "tinyapp"

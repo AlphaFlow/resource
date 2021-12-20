@@ -1,6 +1,5 @@
-import { describeMutation } from '../../../../build/development/index.js';
+import { describeMutation } from '@alphaflow/resource';
 import TodoListResource from '../resources/TodoList.js';
-import TodoListStatsResource from '../resources/TodoListStats.js';
 import { addTodo as addTodoService } from '../services';
 
 const addTodo = describeMutation('addTodo', async text => {
@@ -12,12 +11,11 @@ const addTodo = describeMutation('addTodo', async text => {
     return false;
   }
 
-  await TodoListResource.yield(undefined, async (identity, list) => {
-    if (!list) return list;
-    return await TodoListResource.get(identity);
-  });
-
-  await TodoListStatsResource.refresh();
+  await TodoListResource.yieldWholeResource(
+    async (identity, startIndex, endIndex, last) => {
+      return await TodoListResource.get(identity, startIndex, endIndex);
+    },
+  );
   return newTodo;
 });
 

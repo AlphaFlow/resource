@@ -1,4 +1,4 @@
-import { describeMutation } from '../../../../build/development/index.js';
+import { describeMutation } from '@alphaflow/resource';
 import TodoResource from '../resources/Todo';
 import TodoListResource from '../resources/TodoList';
 import { setTodoIsChecked as setTodoIsCheckedService } from '../services';

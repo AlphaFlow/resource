@@ -1,5 +1,5 @@
 {
-  "name": "basic",
+  "name": "Basic",
   "description": "Basic example with gets, mutations, and filtering.",
   "homepage": "https://codesandbox.io/s/github/AlphaFlow/resource/tree/main/examples/basic",
   "main": "./index.js",

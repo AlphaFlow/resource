@@ -1,5 +1,12 @@
-import { useState, useCallback, useMemo, useEffect, Fragment } from 'react';
-import Modal from 'react-modal';
+import {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  Fragment,
+  Suspense,
+} from 'react';
+import ReactDom from 'react-dom';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import addTodo from './mutations/addTodo';
@@ -8,9 +15,7 @@ import TodoResource from './resources/Todo';
 import TodoListResource from './resources/TodoList';
 
 const TodoDetails = ({ todoId }) => {
-  const [todo, error] = TodoResource.use(todoId);
-
-  if (error) return 'Error loading todo.';
+  const todo = TodoResource.UNSTABLE__useWithSuspense(todoId);
 
   if (todo)
     return (
@@ -158,25 +163,23 @@ const App = () => {
 
   return (
     <div>
-      <h1>Fake Todo App</h1>
-      <Modal
-        isOpen={focusedTodoId !== undefined}
-        onRequestClose={() => {
-          setFocusedTodoId();
-        }}
-        ariaHideApp={false}
-      >
-        <h2>Todo Details</h2>
-        <TodoDetails todoId={focusedTodoId} />
-        <br />
-        <button
-          onClick={() => {
-            setFocusedTodoId();
-          }}
-        >
-          Close
-        </button>
-      </Modal>
+      <h1>Todo App</h1>
+      {focusedTodoId !== undefined && (
+        <div>
+          <h2>Todo Details</h2>
+          <Suspense fallback="Loading...">
+            <TodoDetails todoId={focusedTodoId} />
+          </Suspense>
+          <hr />
+          <button
+            onClick={() => {
+              setFocusedTodoId();
+            }}
+          >
+            Close
+          </button>
+        </div>
+      )}
       <div>
         <input
           type="text"
@@ -274,4 +277,4 @@ const AppWrapper = () => {
   );
 };
 
-export default AppWrapper;
+ReactDom.render(<AppWrapper />, document.getElementById('root'));

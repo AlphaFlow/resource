@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash-es';
-import { UNSTABLE__describePaginatedResource } from '../../../../build/development/index.js';
+import { UNSTABLE__describePaginatedResource } from '@alphaflow/resource';
 import { getTodos } from '../services';
 
 export const applyIdentityFilter = ({

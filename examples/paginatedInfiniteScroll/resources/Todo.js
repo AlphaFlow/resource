@@ -1,4 +1,4 @@
-import { describeResource } from '../../../../build/development/index.js';
+import { describeResource } from '@alphaflow/resource';
 import { getTodoById } from '../services';
 
 const TodoResource = describeResource('Todo', {
