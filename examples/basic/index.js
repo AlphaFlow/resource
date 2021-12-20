@@ -52,7 +52,6 @@ const TodoList = () => {
 
 const App = () => {
   const [newInputText, setNewInputText] = useState('');
-
   const [isAddingTodo, setIsAddingTodo] = useState(false);
 
   const handleAddTodo = useCallback(async () => {
