@@ -1,15 +1,13 @@
 import { ResourceType } from 'describe/resource';
 import { uniqueId, noop } from 'lodash-es';
 import { useCallback, useMemo, useState, useEffect } from 'react';
-import * as shim from 'use-sync-external-store/shim';
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 import dataStore from '../internals/stores/data';
 import surfaceStore from '../internals/stores/surface';
 import readResourceData from '../read/dataStore/resourceData';
 import readResourceGetError from '../read/dataStore/resourceGetError';
 import writeAddToSurfaceWithKey from '../write/surfaceStore/addToSurfaceWithKey';
 import writeRemoveFromSurfaceWithKey from '../write/surfaceStore/removeFromSurfaceWithKey';
-
-const { useSyncExternalStore } = shim;
 
 const getEmptyState = <IdentityType, ResourceDataType>({
   Resource,
