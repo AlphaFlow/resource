@@ -29,7 +29,10 @@ const makeStore = <StoreStateType>(
   initialStore: StoreStateType,
 ): StoreType<StoreStateType> => {
   const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    ((): any => {
+      if (typeof window !== 'undefined') return window;
+      return {};
+    })().__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(
     // @ts-expect-error our reducer type conflicts with what redux expects, disabling this check
     reducer,
