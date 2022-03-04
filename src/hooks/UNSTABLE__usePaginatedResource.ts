@@ -256,6 +256,7 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
               setHookState(
                 ({
                   paginationRangeRequirementsData: {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     [surfaceElementKey]: omit,
                     ...paginationRangeRequirementsData
                   },
