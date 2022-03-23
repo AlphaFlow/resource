@@ -105,7 +105,7 @@ const UNSTABLE__describePaginatedResource = <IdentityType, ResourceDataType>(
       body: (identity, startIndex, endIndex, data) => {
         if (
           refreshIdentity !== undefined &&
-          !Resource.getAreIdentitiesEqual(refreshIdentity, identity)
+          !Resource.areIdentitiesEqual(refreshIdentity, identity)
         )
           return data;
         return Resource.get(refreshIdentity, startIndex, endIndex);
