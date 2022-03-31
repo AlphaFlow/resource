@@ -41,7 +41,11 @@ const UNSTABLE__describePaginatedResource = <IdentityType, ResourceDataType>(
     areIdentitiesEqual = Object.is,
     UNSTABLE__clearImmediate = false,
   }: {
-    get: (identity: IdentityType) => Promise<any>;
+    get: (
+      identity: IdentityType,
+      startIndex?: number,
+      endIndex?: number,
+    ) => Promise<any>;
     getListFromGetResponse: (response: any) => ResourceDataType;
     getCountFromGetResponse: (response: any) => number;
     areIdentitiesEqual?: (a: IdentityType, b: IdentityType) => boolean;
