@@ -94,6 +94,25 @@ const UNSTABLE__describePaginatedResource = <IdentityType, ResourceDataType>(
       body,
     });
 
+  Resource.refresh = async (refreshIdentity: IdentityType) => {
+    return UNSTABLE__yieldWholePaginatedResource<
+      IdentityType,
+      ResourceDataType
+    >({
+      // @ts-expect-error TODO: I can't figure out how to let this function accept an incomplete resource
+      // type. The resource type will be complete any time the function actually runs.
+      Resource,
+      body: (identity, startIndex, endIndex, data) => {
+        if (
+          refreshIdentity !== undefined &&
+          !Resource.areIdentitiesEqual(refreshIdentity, identity)
+        )
+          return data;
+        return Resource.get(refreshIdentity, startIndex, endIndex);
+      },
+    });
+  };
+
   return Resource as PaginatedResourceType<IdentityType, ResourceDataType>;
 };
 
