@@ -15,7 +15,7 @@ export type ResourceType<IdentityType, ResourceDataType> = {
     identity: IdentityType,
   ) => Promise<ResourceDataType>;
   UNSTABLE__clearImmediate: boolean;
-  use: (identity: IdentityType) => [ResourceDataType | undefined, any];
+  use: (identity?: IdentityType) => [ResourceDataType | undefined, any];
   UNSTABLE__useWithSuspense: (identity: IdentityType) => IdentityType;
   yield: (identity?: IdentityType, body?: any) => any;
   refresh: (identity: IdentityType) => Promise<ResourceDataType>;
