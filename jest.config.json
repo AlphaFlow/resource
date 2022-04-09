@@ -1,7 +1,7 @@
 {
   "testRegex": "test/src/hooks/.*.tsx?$",
   "setupFiles": ["<rootDir>/test/setupTests.js"],
-  "moduleDirectories": ["node_modules", "<rootDir>/", "<rootDir>/src/"],
+  "moduleDirectories": ["node_modules", "<rootDir>/src/"],
   "testEnvironment": "jsdom",
   "extensionsToTreatAsEsm": [".jsx", ".ts", ".tsx"],
   "globals": {

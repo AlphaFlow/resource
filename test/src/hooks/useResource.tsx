@@ -2,6 +2,7 @@ import { jest } from '@jest/globals';
 import { unmountComponentAtNode, render } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import TodoResource from '../../fixtures/TodoResource';
+import waitFor from '../../util/waitFor';
 
 let container: null | HTMLDivElement = null;
 
@@ -19,8 +20,9 @@ afterEach(() => {
   }
 });
 
-const Runner = ({ Resource, identity }: { Resource: any; identity: any }) => {
-  const result = Resource.use(identity);
+let runnerResult: any;
+const Runner = ({ Resource, identity }: { Resource: any; identity?: any }) => {
+  runnerResult = Resource.use(identity);
   return null;
 };
 
@@ -28,36 +30,45 @@ test('returns array of current data and get error, success case', async () => {
   act(() => {
     render(<Runner Resource={TodoResource} identity={1} />, container);
   });
-
-  // expect(lastResourceResult).toEqual([testResourceGetResult, undefined]);
+  act(() => {
+    waitFor(() => {
+      expect(runnerResult).toEqual([
+        {
+          id: 1,
+          title: 'Todo 1',
+          isCompleted: false,
+        },
+        undefined,
+      ]);
+    });
+  });
 });
 
-// test.skip('returns array of current data and get error, error case', async () => {
-//   // const hookArgs = {
-//   //   Resource: TestBadGetResource,
-//   //   identity: 1,
-//   // };
+test('returns array of current data and get error, error case', async () => {
+  act(() => {
+    render(<Runner Resource={TodoResource} />, container);
+  });
+  act(() => {
+    waitFor(() => {
+      expect(runnerResult[0]).toBeUndefined();
+      expect(runnerResult[1]).toEqual(new Error('Missing id'));
+    });
+  });
+});
 
-//   await act(async () => {
-//     // render(<Runner passToHook={hookArgs} />, container);
-//   });
-
-//   expect(lastResourceResult).toEqual([undefined, testBadGetError]);
-// });
-
-// test.skip('does nothing when passed `null` identity', () => {
-//   // const hookArgs = {
-//   //   Resource: TestResource,
-//   //   identity: null,
-//   // };
-
-//   act(() => {
-//     // render(<Runner passToHook={hookArgs} />, container);
-//   });
-
-//   expect(testResourceGet).not.toHaveBeenCalled();
-//   expect(lastResourceResult).toEqual([undefined, undefined]);
-// });
+test('does nothing when passed `null` identity', async () => {
+  const spy = jest.spyOn(TodoResource, 'get');
+  act(() => {
+    render(<Runner Resource={TodoResource} identity={null} />, container);
+  });
+  act(() => {
+    waitFor(() => {
+      expect(runnerResult[0]).toBeUndefined();
+      expect(runnerResult[1]).toBeUndefined();
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+});
 
 // // TODO: these are a little hard to test, not sure how to get the dataStore in a state where it
 // // has data ready without doing a lot of messy setup and teardown and measure first render vs subsequent.
@@ -77,13 +88,13 @@ test('returns array of current data and get error, success case', async () => {
 //   //   identity: 1,
 //   // };
 
-//   await act(async () => {
+//     act(async () => {
 //     // render(<Runner passToHook={hookArgs} />, container);
 //   });
 
 //   expect(lastResourceResult[0]).toBe(testResourceGetResult);
 
-//   await act(async () => {
+//     act(async () => {
 //     // render(<Runner passToHook={nextHookArgs} />, container);
 //   });
 

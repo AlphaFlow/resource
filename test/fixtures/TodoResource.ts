@@ -1,10 +1,8 @@
 import describeResource from '../../src/describe/resource';
+import getTodo from './getTodo';
 
 const TodoResource = describeResource('TodoResource', {
-  get: async id => ({
-    id,
-    title: `Todo ${id}`,
-  }),
+  get: getTodo,
 });
 
 export default TodoResource;
