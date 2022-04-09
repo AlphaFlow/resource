@@ -1,4 +1,4 @@
-import makeStore from '../../../src/make/store';
+import makeStore from '../../../src/make/store.ts';
 
 test('reducer blindly runs transformStore', () => {
   const initialStore = 'foo';
