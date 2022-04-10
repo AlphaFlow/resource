@@ -418,6 +418,8 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
     [paginationRangeRequirementsData],
   );
 
+  if (providedIdentity === null) return [undefined, undefined, undefined];
+
   if (providedIdentityDoesMatchRender)
     return [resourceListData, resourceCountData, resourceGetError];
 

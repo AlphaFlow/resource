@@ -4,7 +4,7 @@ import useResource from '../../../src/hooks/useResource';
 import TodoResource from '../../fixtures/TodoResource';
 import TodoSummaryResource from '../../fixtures/TodoSummaryResource';
 
-test('returns array of current data and get error, success case', async () => {
+test('success case', async () => {
   const { result, waitForNextUpdate } = renderHook(() => TodoResource.use(1));
 
   expect(result.current[0]).toBeUndefined();
@@ -20,7 +20,7 @@ test('returns array of current data and get error, success case', async () => {
   expect(result.current[1]).toBeUndefined();
 });
 
-test('returns array of current data and get error, error case', async () => {
+test('error case', async () => {
   const { result, waitForNextUpdate } = renderHook(() =>
     TodoResource.use(false),
   );

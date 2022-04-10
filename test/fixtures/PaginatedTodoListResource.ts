@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash-es';
 import { UNSTABLE__describePaginatedResource } from '../../src/index';
 
-const fakeTodos = new Array(500).map((_, index) => ({
+const fakeTodos = new Array(500).fill(null).map((_, index) => ({
   id: index,
   text: `Todo ${index}`,
   isCompleted: false,
@@ -11,12 +11,21 @@ const PaginatedTodoListResource = UNSTABLE__describePaginatedResource(
   'PaginatedTodoListResource',
   {
     // @ts-expect-error fix resource typing
-    get: async ({ matchText = '', matchCompleted }, startIndex, endIndex) => {
+    get: async (identity, startIndex: number, endIndex: number) => {
+      if (!identity) throw new Error('Missing search parameters');
+
+      const { matchText = '', matchCompleted } = identity;
+
       const allMatching = fakeTodos.filter(({ text, isCompleted }) => {
         if (matchCompleted !== undefined && matchCompleted !== isCompleted)
           return false;
-        return text.toLowerCase().includes(matchText.toLowerCase());
+
+        if (matchText)
+          return text.toLowerCase().includes(matchText.toLowerCase());
+
+        return true;
       });
+
       return {
         count: allMatching.length,
         list: allMatching.slice(startIndex, endIndex),
