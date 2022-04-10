@@ -1,5 +1,5 @@
 {
-  "testRegex": "test/src/hooks/.*$",
+  "testRegex": "test/src/.*$",
   "setupFiles": ["<rootDir>/test/setupTests.ts"],
   "moduleDirectories": ["node_modules", "<rootDir>/src/"],
   "testEnvironment": "jsdom",
