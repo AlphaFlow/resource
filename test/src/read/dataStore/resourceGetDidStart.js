@@ -1,20 +1,20 @@
-import makeDataStoreKey from 'src/make/dataStoreKey';
-import readResourceGetDidStart from 'src/read/dataStore/resourceGetDidStart';
-import { TestResource } from 'config/testData';
+import makeDataStoreKey from '../../../../src/make/dataStoreKey';
+import readResourceGetDidStart from '../../../../src/read/dataStore/resourceGetDidStart';
+import TodoResource from '../../../fixtures/TodoResource';
 
-test.skip('reads resource get did start', () => {
+test('reads resource get did start', () => {
   const identity = 1;
   const didStart = true;
   const store = {
     data: {
-      [makeDataStoreKey({ Resource: TestResource, identity })]: {
+      [makeDataStoreKey({ Resource: TodoResource, identity })]: {
         get: { didStart },
       },
     },
   };
 
   const result = readResourceGetDidStart(store)({
-    Resource: TestResource,
+    Resource: TodoResource,
     identity,
   });
   expect(result).toBe(didStart);

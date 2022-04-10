@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import taskController from 'src/internals/taskController';
+import taskController from '../../../src/internals/taskController';
 
 test('provides expected API', () => {
   expect(typeof taskController.acceptMutation).toBe('function');

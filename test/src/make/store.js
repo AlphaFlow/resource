@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import makeStore from 'src/make/store';
+import makeStore from '../../../src/make/store';
 
 test('calling returns redux store with expected API', () => {
   const store = makeStore();

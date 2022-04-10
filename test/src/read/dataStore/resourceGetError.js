@@ -1,20 +1,20 @@
-import makeDataStoreKey from 'src/make/dataStoreKey';
-import { TestResource } from 'config/testData';
+import makeDataStoreKey from '../../../../src/make/dataStoreKey';
 import readResourceGetError from '../../../../src/read/dataStore/resourceGetError';
+import TodoResource from '../../../fixtures/TodoResource';
 
-test.skip('reads resource data', () => {
+test('reads resource data', () => {
   const identity = 1;
   const rejectedWith = {};
   const store = {
     data: {
-      [makeDataStoreKey({ Resource: TestResource, identity })]: {
+      [makeDataStoreKey({ Resource: TodoResource, identity })]: {
         get: { rejectedWith },
       },
     },
   };
 
   const result = readResourceGetError(store)({
-    Resource: TestResource,
+    Resource: TodoResource,
     identity,
   });
   expect(result).toBe(rejectedWith);
