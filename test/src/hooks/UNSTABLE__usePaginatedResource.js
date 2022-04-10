@@ -80,3 +80,27 @@ test('does nothing when passed `null` identity', async () => {
   expect(result.current[2]).toBeUndefined();
   expect(getSpy).not.toHaveBeenCalled();
 });
+
+test('updates count after refetch case', async () => {
+  const { result, waitForNextUpdate } = renderHook(() =>
+    PaginatedTodoListResource.use(
+      { matchText: '', matchCompleted: false },
+      0,
+      3,
+    ),
+  );
+
+  await waitForNextUpdate();
+  await PaginatedTodoListResource.refresh();
+  await waitForNextUpdate();
+
+  expect(result.current[0]).toEqual([
+    { id: 0, text: 'Todo 0', isCompleted: false },
+    { id: 1, text: 'Todo 1', isCompleted: false },
+    { id: 2, text: 'Todo 2', isCompleted: false },
+    // TODO: need to fix this but clients may have implemented workarounds for this behavior
+    null,
+  ]);
+  expect(result.current[1]).toBe(500);
+  expect(result.current[2]).toBeUndefined();
+});
