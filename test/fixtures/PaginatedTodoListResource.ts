@@ -1,11 +1,23 @@
 import { isEqual } from 'lodash-es';
 import { UNSTABLE__describePaginatedResource } from '../../src/index';
 
-const fakeTodos = new Array(500).fill(null).map((_, index) => ({
+const initialFakeTodos = new Array(500).fill(null).map((_, index) => ({
   id: index,
   text: `Todo ${index}`,
   isCompleted: false,
 }));
+
+const todoData = { current: initialFakeTodos };
+
+export const resetData = () => {
+  todoData.current = initialFakeTodos;
+};
+
+export const setData = (
+  setter: (last: typeof initialFakeTodos) => typeof initialFakeTodos,
+) => {
+  todoData.current = setter(todoData.current);
+};
 
 const PaginatedTodoListResource = UNSTABLE__describePaginatedResource(
   'PaginatedTodoListResource',
@@ -16,7 +28,7 @@ const PaginatedTodoListResource = UNSTABLE__describePaginatedResource(
 
       const { matchText = '', matchCompleted } = identity;
 
-      const allMatching = fakeTodos.filter(({ text, isCompleted }) => {
+      const allMatching = todoData.current.filter(({ text, isCompleted }) => {
         if (matchCompleted !== undefined && matchCompleted !== isCompleted)
           return false;
 

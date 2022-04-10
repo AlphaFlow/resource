@@ -1,6 +1,14 @@
 import { jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
-import PaginatedTodoListResource from '../../fixtures/PaginatedTodoListResource';
+import { act } from 'react-dom/test-utils';
+import PaginatedTodoListResource, {
+  resetData,
+  setData,
+} from '../../fixtures/PaginatedTodoListResource';
+
+beforeEach(() => {
+  resetData();
+});
 
 test('success case', async () => {
   const { result, waitForNextUpdate } = renderHook(() =>
@@ -82,25 +90,26 @@ test('does nothing when passed `null` identity', async () => {
 });
 
 test('updates count after refetch case', async () => {
-  const { result, waitForNextUpdate } = renderHook(() =>
+  const { result } = renderHook(() =>
     PaginatedTodoListResource.use(
-      { matchText: '', matchCompleted: false },
+      {
+        matchText: '',
+        matchCompleted: false,
+      },
       0,
       3,
     ),
   );
 
-  await waitForNextUpdate();
-  await PaginatedTodoListResource.refresh();
-  await waitForNextUpdate();
-
-  expect(result.current[0]).toEqual([
-    { id: 0, text: 'Todo 0', isCompleted: false },
-    { id: 1, text: 'Todo 1', isCompleted: false },
-    { id: 2, text: 'Todo 2', isCompleted: false },
-    // TODO: need to fix this but clients may have implemented workarounds for this behavior
-    null,
-  ]);
   expect(result.current[1]).toBe(500);
-  expect(result.current[2]).toBeUndefined();
+  setData(last => last.slice(0, 5));
+
+  await act(async () => {
+    await PaginatedTodoListResource.refresh({
+      matchText: '',
+      matchCompleted: false,
+    });
+  });
+
+  expect(result.current[1]).toBe(5);
 });
