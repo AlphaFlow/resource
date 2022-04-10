@@ -2,6 +2,7 @@ const waitFor = async (callback: () => void, timeout = 500) => {
   const step = 10;
   let timeSpent = 0;
   let timedOut = false;
+  let lastError = null;
 
   while (true) {
     try {
@@ -9,7 +10,9 @@ const waitFor = async (callback: () => void, timeout = 500) => {
       timeSpent += step;
       callback();
       break;
-    } catch {}
+    } catch (error) {
+      lastError = error;
+    }
     if (timeSpent >= timeout) {
       timedOut = true;
       break;
@@ -17,7 +20,7 @@ const waitFor = async (callback: () => void, timeout = 500) => {
   }
 
   if (timedOut) {
-    throw new Error('timeout');
+    throw lastError || new Error('timeout');
   }
 };
 

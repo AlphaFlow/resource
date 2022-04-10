@@ -38,8 +38,9 @@ const makeResourceGet = <IdentityType, ResourceDataType>({
       );
     } catch (caughtWith) {
       error = caughtWith;
-      // eslint-disable-next-line no-console
-      console.error('Warning: Resource.get failed', '\n', caughtWith);
+      if (process.env.NODE_ENV === 'development')
+        // eslint-disable-next-line no-console
+        console.error('Warning: Resource.get failed', '\n', caughtWith);
     } finally {
       clearTimeout(timeout);
     }

@@ -30,12 +30,13 @@ const UNSTABLE__resourceGetFromStoreOrGet = <IdentityType, ResourceDataType>({
             ResourceDataType
           >({ Resource, identity });
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(
-        'Warning: Resource.UNSTABLE__getFromStoreOrGet failed',
-        '\n',
-        error,
-      );
+      if (process.env.NODE_ENV === 'development')
+        // eslint-disable-next-line no-console
+        console.error(
+          'Warning: Resource.UNSTABLE__getFromStoreOrGet failed',
+          '\n',
+          error,
+        );
       throw error;
     }
 
