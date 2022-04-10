@@ -393,22 +393,18 @@ const UNSTABLE__usePaginatedResource = <IdentityType, ResourceDataType>({
     ],
   );
 
-  const resourceCountData = useMemo(
-    // TODO: subsequent gets may return different totals because of off-client
-    // creates or deletes, we will need to handle this
-    // also maybe not a great policy to take the first valid value we find.
-    () => {
-      const lastData = Object.values(paginationRangeRequirementsData).find(
-        value => value,
-      )?.resourceData;
+  const resourceCountData = useMemo(() => {
+    const lastData = Object.values(paginationRangeRequirementsData)
+      // use last fetched data
+      .slice()
+      .reverse()
+      .find(value => value)?.resourceData;
 
-      // TODO: use get metadata
-      if (!lastData) return;
+    // TODO: use get metadata
+    if (!lastData) return;
 
-      return Resource.getCountFromGetResponse(lastData);
-    },
-    [paginationRangeRequirementsData, Resource],
-  );
+    return Resource.getCountFromGetResponse(lastData);
+  }, [paginationRangeRequirementsData, Resource]);
 
   const resourceGetError = useMemo(
     () =>
