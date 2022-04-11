@@ -30,7 +30,6 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules NODE_ENV=\"test\" jest --no-watchman"
   },
   "dependencies": {
-    "@testing-library/react-hooks": "8.0.0",
     "lodash-es": "4.17.21",
     "redux": "4.0.4"
   },
@@ -40,6 +39,7 @@
     "@skypack/package-check": "0.2.2",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.0.0",
+    "@testing-library/react-hooks": "8.0.0",
     "@trivago/prettier-plugin-sort-imports": "2.0.4",
     "@types/jest": "27.4.1",
     "@types/lodash-es": "4.17.4",

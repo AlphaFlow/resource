@@ -12,11 +12,7 @@
     "plugin:react/jsx-runtime"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "react",
-    "react-hooks",
-    "jest"
-  ],
+  "plugins": ["react", "react-hooks", "jest"],
   "rules": {
     "no-loop-func": "off",
     "import/no-anonymous-default-export": "off",
@@ -27,26 +23,13 @@
         "SwitchCase": 1
       }
     ],
-    "linebreak-style": [
-      "warn",
-      "unix"
-    ],
-    "quotes": [
-      "warn",
-      "single",
-      "avoid-escape"
-    ],
-    "semi": [
-      "warn",
-      "always"
-    ],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "single", "avoid-escape"],
+    "semi": ["warn", "always"],
     "no-console": [
       "warn",
       {
-        "allow": [
-          "warn",
-          "error"
-        ]
+        "allow": ["warn", "error"]
       }
     ],
     "react/prop-types": 0,
@@ -60,10 +43,7 @@
   },
   "overrides": [
     {
-      "files": [
-        "**/*.ts",
-        "**/*.tsx"
-      ],
+      "files": ["**/*.ts", "**/*.tsx"],
       "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
@@ -71,12 +51,7 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
       ],
-      "plugins": [
-        "react",
-        "react-hooks",
-        "jest",
-        "@typescript-eslint"
-      ],
+      "plugins": ["react", "react-hooks", "jest", "@typescript-eslint"],
       "rules": {
         "@typescript-eslint/no-explicit-any": "off",
         "react-hooks/rules-of-hooks": "error",
@@ -90,26 +65,13 @@
             "SwitchCase": 1
           }
         ],
-        "linebreak-style": [
-          "warn",
-          "unix"
-        ],
-        "quotes": [
-          "warn",
-          "single",
-          "avoid-escape"
-        ],
-        "semi": [
-          "warn",
-          "always"
-        ],
+        "linebreak-style": ["warn", "unix"],
+        "quotes": ["warn", "single", "avoid-escape"],
+        "semi": ["warn", "always"],
         "no-console": [
           "warn",
           {
-            "allow": [
-              "warn",
-              "error"
-            ]
+            "allow": ["warn", "error"]
           }
         ]
       }
