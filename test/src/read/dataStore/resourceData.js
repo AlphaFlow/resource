@@ -1,26 +1,26 @@
-import makeDataStoreKey from 'src/make/dataStoreKey';
-import readResourceData from 'src/read/dataStore/resourceData';
-import { TestResource } from 'config/testData';
+import makeDataStoreKey from '../../../../src/make/dataStoreKey';
+import readResourceData from '../../../../src/read/dataStore/resourceData';
+import TodoResource from '../../../fixtures/TodoResource';
 
-test.skip('reads resource data', () => {
+test('reads resource data', () => {
   const identity = 1;
   const data = {};
   const store = {
     data: {
-      [makeDataStoreKey({ Resource: TestResource, identity })]: { data },
+      [makeDataStoreKey({ Resource: TodoResource, identity })]: { data },
     },
   };
 
-  const result = readResourceData(store)({ Resource: TestResource, identity });
+  const result = readResourceData(store)({ Resource: TodoResource, identity });
   expect(result).toBe(data);
 });
 
-test.skip('handles empty path', () => {
+test('handles empty path', () => {
   const identity = 1;
   const store = {
     data: {},
   };
 
-  const result = readResourceData(store)({ Resource: TestResource, identity });
+  const result = readResourceData(store)({ Resource: TodoResource, identity });
   expect(result).toBe(undefined);
 });

@@ -52,10 +52,10 @@ First, we'll need to describe the data as a resource.
 ```js
 // src/resources/ToDo.js
 
-import { describeResource } from "@alphaflow/resource";
-import toDoServices from "src/services/ToDo";
+import toDoServices from 'src/services/ToDo';
+import { describeResource } from '@alphaflow/resource';
 
-const ToDoResource = describeResource("ToDo", {
+const ToDoResource = describeResource('ToDo', {
   get: toDoId => services.getById(toDoId),
 });
 
@@ -106,18 +106,18 @@ The framework handles fetching data as they're needed and gives us convenient ac
 ```js
 // src/resources/setToDoIsCheckedMutation.js
 
-import { describeMutation } from "@alphaflow/resource";
-import toDoServices from "services/ToDo";
+import toDoServices from 'services/ToDo';
+import { describeMutation } from '@alphaflow/resource';
 
 const setToDoIsCheckedMutation = describeMutation(
-  "setToDoIsChecked",
+  'setToDoIsChecked',
   async ({ toDoId, isChecked }) => {
     const toDoAfterUpdate = await toDoServices.setIsChecked({
       toDoId,
       isChecked,
     });
     await ToDoResource.yield(toDoId, toDoAfterUpdate);
-  }
+  },
 );
 
 export default setToDoIsCheckedMutation;
@@ -278,18 +278,18 @@ Functions exposed by the library should maintain similar call/response signature
 
 ```js
 // export is verb/construct
-import { describeResource } from "@alphaflow/resource";
+import { describeResource } from '@alphaflow/resource';
 
-// called with a label and a function
-// the arguments of the function are 100% under the developer's control
-const NamedResource = describeResource("Named", identity => get(identity));
+/ called with a label and a function
+/ the arguments of the function are 100% under the developer's control
+const NamedResource = describeResource('Named', identity => get(identity));
 ```
 
 ## Contributing
 
 Start tests in watch mode with `yarn start`.
 
-It may be helpful to use an example app to test your changes. Run `yarn buildAndWatch` in this directory. In another tab, navigate to your example app and run `yarn start`
+It may be helpful to use an example app to test your changes. Run `yarn buildAndWatch` in this directory. In another tab, navigate to your example app and run `yarn start`.
 
 ### Architecture
 

@@ -1,106 +1,80 @@
-// import useResource from 'src/hooks/useResource';
 import { jest } from '@jest/globals';
-import {
-  // render,
-  unmountComponentAtNode,
-} from 'react-dom';
-import { act } from 'react-dom/test-utils';
-import {
-  // TestResource,
-  testResourceGet,
-  testResourceGetResult, // TestBadGetResource,
-  testBadGetError, // AltTestResource,
-  altTestResourceGetResult,
-} from '../../../config/testData';
+import { renderHook } from '@testing-library/react-hooks';
+import useResource from '../../../src/hooks/useResource';
+import TodoResource from '../../fixtures/TodoResource';
+import TodoSummaryResource from '../../fixtures/TodoSummaryResource';
 
-let lastResourceResult;
+test('success case', async () => {
+  const { result, waitForNextUpdate } = renderHook(() => TodoResource.use(1));
 
-// const Runner = ({ passToHook, children = null }) => {
-//   lastResourceResult = useResource(passToHook);
-//   return children;
-// };
+  expect(result.current[0]).toBeUndefined();
+  expect(result.current[1]).toBeUndefined();
 
-let container;
+  await waitForNextUpdate();
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  container = document.createElement('div');
-  document.body.appendChild(container);
+  expect(result.current[0]).toEqual({
+    id: 1,
+    title: 'Todo 1',
+    isCompleted: false,
+  });
+  expect(result.current[1]).toBeUndefined();
 });
 
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
+test('error case', async () => {
+  const { result, waitForNextUpdate } = renderHook(() =>
+    TodoResource.use(false),
+  );
+
+  expect(result.current[0]).toBeUndefined();
+  expect(result.current[1]).toBeUndefined();
+
+  await waitForNextUpdate();
+
+  expect(result.current[0]).toBeUndefined();
+  expect(result.current[1]).toEqual(new Error('Missing id'));
 });
 
-test.skip('returns array of current data and get error, success case', async () => {
-  // const hookArgs = {
-  //   Resource: TestResource,
-  //   identity: 1,
-  // };
+test('does nothing when passed `null` identity', async () => {
+  const getSpy = jest.spyOn(TodoResource, 'get');
 
-  await act(async () => {
-    // render(<Runner passToHook={hookArgs} />, container);
+  const { result } = renderHook(() => TodoResource.use(null));
+
+  expect(result.current[0]).toBeUndefined();
+  expect(result.current[1]).toBeUndefined();
+
+  await new Promise(resolve => setTimeout(resolve, 100));
+
+  expect(result.current[0]).toBeUndefined();
+  expect(result.current[1]).toBeUndefined();
+  expect(getSpy).not.toHaveBeenCalled();
+});
+
+test('handles case where resource changes but identities are equal', async () => {
+  const { result, rerender, waitForNextUpdate } = renderHook(
+    args => useResource(args),
+    {
+      initialProps: { Resource: TodoResource, identity: 1 },
+    },
+  );
+
+  expect(result.current[0]).toEqual({
+    id: 1,
+    title: 'Todo 1',
+    isCompleted: false,
   });
 
-  expect(lastResourceResult).toEqual([testResourceGetResult, undefined]);
-});
-
-test.skip('returns array of current data and get error, error case', async () => {
-  // const hookArgs = {
-  //   Resource: TestBadGetResource,
-  //   identity: 1,
-  // };
-
-  await act(async () => {
-    // render(<Runner passToHook={hookArgs} />, container);
+  rerender({
+    Resource: TodoSummaryResource,
+    identity: 1,
   });
 
-  expect(lastResourceResult).toEqual([undefined, testBadGetError]);
+  await waitForNextUpdate();
+  expect(result.current[0]).toBe('Todo 1');
 });
 
-test.skip('does nothing when passed `null` identity', () => {
-  // const hookArgs = {
-  //   Resource: TestResource,
-  //   identity: null,
-  // };
-
-  act(() => {
-    // render(<Runner passToHook={hookArgs} />, container);
-  });
-
-  expect(testResourceGet).not.toHaveBeenCalled();
-  expect(lastResourceResult).toEqual([undefined, undefined]);
-});
-
-// TODO: these are a little hard to test, not sure how to get the dataStore in a state where it
-// has data ready without doing a lot of messy setup and teardown and measure first render vs subsequent.
-test.todo('synchronously returns data when available');
-test.todo('does not return stale data when identity changes');
-test.todo('bails out render when identity changes but passes equality');
-test.todo('does not respond to subscription changes on stale identity');
-
-test.skip('handles edge case where resource changes but identities are equal', async () => {
-  // const hookArgs = {
-  //   Resource: TestResource,
-  //   identity: 1,
-  // };
-
-  // const nextHookArgs = {
-  //   Resource: AltTestResource,
-  //   identity: 1,
-  // };
-
-  await act(async () => {
-    // render(<Runner passToHook={hookArgs} />, container);
-  });
-
-  expect(lastResourceResult[0]).toBe(testResourceGetResult);
-
-  await act(async () => {
-    // render(<Runner passToHook={nextHookArgs} />, container);
-  });
-
-  expect(lastResourceResult[0]).toBe(altTestResourceGetResult);
-});
+// // TODO: these are a little hard to test, not sure how to get the dataStore in a state where it
+// // has data ready without doing a lot of messy setup and teardown and measure first render vs subsequent.
+// test.todo('synchronously returns data when available');
+// test.todo('does not return stale data when identity changes');
+// test.todo('bails out render when identity changes but passes equality');
+// test.todo('does not respond to subscription changes on stale identity');

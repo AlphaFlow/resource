@@ -1,6 +1,6 @@
 {
   "name": "@alphaflow/resource",
-  "version": "1.0.0-alpha.29",
+  "version": "1.0.0-alpha.30",
   "description": "AlphaFlow Resource is a library for connecting user interfaces to remote data.",
   "homepage": "https://github.com/AlphaFlow/client-core#readme",
   "bugs": {
@@ -27,7 +27,7 @@
     "checkPackage": "yarn package-check",
     "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" && sort-package-json \"package.json\" \"./*/package.json\"",
     "start": "yarn test --watch",
-    "test": "echo 'tests disabled'"
+    "test": "NODE_OPTIONS=--experimental-vm-modules NODE_ENV=\"test\" jest --no-watchman"
   },
   "dependencies": {
     "lodash-es": "4.17.21",
@@ -37,9 +37,14 @@
     "@rollup/plugin-eslint": "8.0.1",
     "@rollup/plugin-node-resolve": "13.0.5",
     "@skypack/package-check": "0.2.2",
+    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/react": "13.0.0",
+    "@testing-library/react-hooks": "8.0.0",
     "@trivago/prettier-plugin-sort-imports": "2.0.4",
+    "@types/jest": "27.4.1",
     "@types/lodash-es": "4.17.4",
-    "@types/react": "17.0.32",
+    "@types/react": "17.0.43",
+    "@types/react-dom": "17.0.14",
     "@typescript-eslint/eslint-plugin": "5.13.0",
     "@typescript-eslint/parser": "5.13.0",
     "eslint": "8.10.0",
@@ -60,7 +65,7 @@
     "rollup-plugin-terser": "7.0.2",
     "rollup-plugin-typescript2": "0.30.0",
     "sort-package-json": "1.52.0",
-    "ts-jest": "27.1.3",
+    "ts-jest": "27.1.4",
     "typescript": "4.4.3"
   },
   "peerDependencies": {

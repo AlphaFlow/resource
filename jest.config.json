@@ -1,10 +1,18 @@
 {
-  "testRegex": "test/.*.js$",
-  "setupFiles": ["<rootDir>/config/setupTests.js"],
-  "modulePaths": ["<rootDir>/"],
-  "transform": {
-    "^.+\\.(ts|tsx)$": "ts-jest"
+  "testRegex": "test/src/.*$",
+  "setupFiles": ["<rootDir>/test/setupTests.ts"],
+  "moduleDirectories": ["node_modules", "<rootDir>/src/"],
+  "testEnvironment": "jsdom",
+  "extensionsToTreatAsEsm": [".jsx", ".ts", ".tsx"],
+  "globals": {
+    "ts-jest": {
+      "useESM": true
+    }
   },
-  "transformIgnorePatterns": [],
-  "testEnvironment": "jsdom"
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
+  },
+  "transform": {
+    "^.+\\.(t|j)sx?$": "ts-jest"
+  }
 }
