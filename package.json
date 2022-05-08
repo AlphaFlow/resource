@@ -1,6 +1,6 @@
 {
   "name": "@alphaflow/resource",
-  "version": "1.0.0-alpha.30",
+  "version": "1.0.0-alpha.31",
   "description": "AlphaFlow Resource is a library for connecting user interfaces to remote data.",
   "homepage": "https://github.com/AlphaFlow/client-core#readme",
   "bugs": {
@@ -12,6 +12,7 @@
   },
   "license": "UNLICENSED",
   "type": "module",
+  "types": "./build/production/index.d.ts",
   "exports": {
     "development": "./build/development/index.js",
     "production": "./build/production/index.js",
