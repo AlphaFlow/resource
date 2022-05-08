@@ -1,6 +1,6 @@
 {
   "name": "@alphaflow/resource",
-  "version": "1.0.0-alpha.30",
+  "version": "1.0.0-alpha.31",
   "description": "AlphaFlow Resource is a library for connecting user interfaces to remote data.",
   "homepage": "https://github.com/AlphaFlow/client-core#readme",
   "bugs": {
@@ -31,7 +31,8 @@
   },
   "dependencies": {
     "lodash-es": "4.17.21",
-    "redux": "4.0.4"
+    "redux": "4.0.4",
+    "use-sync-external-store": "1.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-eslint": "8.0.1",
@@ -45,6 +46,7 @@
     "@types/lodash-es": "4.17.4",
     "@types/react": "17.0.43",
     "@types/react-dom": "17.0.14",
+    "@types/use-sync-external-store": "0.0.3",
     "@typescript-eslint/eslint-plugin": "5.13.0",
     "@typescript-eslint/parser": "5.13.0",
     "eslint": "8.10.0",

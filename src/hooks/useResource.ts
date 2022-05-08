@@ -1,6 +1,7 @@
 import { ResourceType } from 'describe/resource';
 import { uniqueId } from 'lodash-es';
 import { useMemo, useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 import dataStore from '../internals/stores/data';
 import surfaceStore from '../internals/stores/surface';
 import readResourceData from '../read/dataStore/resourceData';
