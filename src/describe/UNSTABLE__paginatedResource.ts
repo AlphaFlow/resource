@@ -20,8 +20,11 @@ export type PaginatedResourceType<IdentityType, ResourceDataType> = {
   ) => Promise<ResourceDataType>;
   UNSTABLE__clearImmediate: boolean;
   use: (
-    identity?: IdentityType,
-  ) => [ResourceDataType[] | null[] | undefined, number | undefined, any];
+    identity: IdentityType | null | never,
+    startIndex: number,
+    endIndex: number,
+  ) => [(ResourceDataType | undefined | null)[], number | undefined, any];
+
   UNSTABLE__useWithSuspense: (identity: IdentityType) => IdentityType;
   yield: (identity?: IdentityType, body?: any) => any;
   refresh: (identity: IdentityType) => Promise<ResourceDataType>;
