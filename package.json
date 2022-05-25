@@ -1,6 +1,6 @@
 {
   "name": "@alphaflow/resource",
-  "version": "1.0.0-alpha.31",
+  "version": "1.0.0-alpha.32",
   "description": "AlphaFlow Resource is a library for connecting user interfaces to remote data.",
   "homepage": "https://github.com/AlphaFlow/client-core#readme",
   "bugs": {

@@ -112,11 +112,12 @@ const UNSTABLE__describePaginatedResource = <IdentityType, ResourceDataType>(
       // type. The resource type will be complete any time the function actually runs.
       Resource,
       body: (identity, startIndex, endIndex, data) => {
-        if (
-          refreshIdentity !== undefined &&
-          !Resource.areIdentitiesEqual(refreshIdentity, identity)
-        )
+        if (refreshIdentity === undefined)
+          return Resource.get(identity, startIndex, endIndex);
+
+        if (!Resource.areIdentitiesEqual(refreshIdentity, identity))
           return data;
+
         return Resource.get(refreshIdentity, startIndex, endIndex);
       },
     });
