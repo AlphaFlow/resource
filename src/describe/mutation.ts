@@ -1,26 +1,30 @@
 import taskController from '../internals/taskController';
 
-export type MutationType = {
+export type MutationType<ParametersType extends unknown[], ReturnType> = {
   label: string;
-  (): Promise<any>;
+  (...args: ParametersType): Promise<ReturnType>;
 };
 
-const describeMutation = (
+const describeMutation = <
+  ParametersType extends unknown[],
+  ReturnType = unknown,
+>(
   label: string,
-  runner: (...args: any[]) => any,
-): MutationType => {
+  runner: (...args: ParametersType) => any,
+): MutationType<ParametersType, ReturnType> => {
   // ensure mutations are async
-  const mutation = (...args: any[]) => Promise.resolve(runner(...args));
+  const mutation = (...args: ParametersType) =>
+    Promise.resolve(runner(...args));
 
   mutation.label = label;
 
   // thread resolve/reject control into taskController so that users can expect normal promise behavior
-  const runMutation = (...callWith: any[]) =>
+  const runMutation = (...callWith: ParametersType) =>
     new Promise((resolve, reject) => {
       taskController.acceptMutation({ mutation, callWith, resolve, reject });
     });
 
-  return runMutation as MutationType;
+  return runMutation as MutationType<ParametersType, ReturnType>;
 };
 
 export default describeMutation;
